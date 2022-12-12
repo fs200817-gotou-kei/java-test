@@ -11,12 +11,15 @@ import javax.persistence.Lob;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import lombok.Data;
 
-// TODO: Entityとかアノテーションの効果
+// TODO: @の具体的な処理の中身を見たりしてもいいかも
+// Entityとかアノテーションの効果→apiを作成するときなどにormの仕組みを使ってdbのテーブルと結びつけるための目印
 @Entity
-// TODO: hibernateのtableとpresistenceのtableの違い
+// TODO: hibernateのtableとpresistenceのtableの違い(presistenceのでいいらしい)
 @Table(name = "worksites")
 // TODO: getter, setter全部定義したことにしていいの？確か必要な奴だけにsettterとかgetter設定するのあったはず
 @Data
@@ -26,8 +29,10 @@ public class WorkSite {
     @Id
     // GeneratedValueやGenerationTypeは他とどう違うのか、他のオプションは何があるか
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    // TODO: idをLong型で定義する根拠は？intは？integerは？
+    @Column(name = "id", nullable = false)
+    // idをLong型で定義する根拠は？intは？integerは？ →
+    // idがbigint型で8byteの格納領域に対してlongも同じ量だけの格納領域がありかつ数字型で同じであるから
+    // 大切なのは一致してないと片方で入っていたものがもう片方では容量オーダーなどになっててしまわないこと
     private Long id;
 
     @Column(name = "name")
@@ -41,12 +46,18 @@ public class WorkSite {
 
     // TODO: Lob, Typeとは？
     // TODO: blob型とbyte型の関係性
+    // TODO: このかたで容量オーダーとかにならない？共通の型ってことになる？
+    // TODO:
+    // MEDIUMBLOBってちゃんと認識してくれている?(mediumは型としてあるのか)(columnDefinitionの種類みたいな感じで検索すれば出てきそう)
+    // https://www.baeldung.com/hibernate-lobを見た感じ画像はこれでもOKそう
     // byte型である根拠は？
+    // LobはデータベースがプロパティをLarge Objectとして格納する必要があることを指定している
     @Lob
-    @Type(type = "org.hibernate.type.ImageType")
-    @Column(name = "photo")
+    @Column(name = "photo", columnDefinition = "MEDIUMBLOB")
     private byte[] photo;
 
+    // TODO: varchar(255)はStringに対応させていいのか？
+    // stringは最大bayte数は一応あるけどその上限に達する前にヒープ領域が足りなくなるらしい
     @Column(name = "adress")
     private String adress;
 
@@ -62,11 +73,12 @@ public class WorkSite {
     private Date endAt;
 
     // TODO: 元のdb定義はDatetime型だけどDate型でいいの？
-    // TODO: createdAt, updatedAtの自動生成機能実装、理解
     @Column(name = "created_at")
+    @CreatedDate
     private Date createdAt;
 
     @Column(name = "updated_at")
+    @LastModifiedDate
     private Date updatedAt;
 
 }
