@@ -1,0 +1,16 @@
+package com.example.demo.Constants;
+
+public class AppConstants {
+    public static final int MAX_SIZE_ID = 255;
+    public static final int MAX_SIZE_NAME = 255;
+    public static final int MAX_SIZE_SUB_NAME = 255;
+    public static final int MAX_SIZE_TYPE = 255;
+    public static final int MAX_SIZE_STAFF_NAME = 255;
+    public static final int MAX_SIZE_PHOTO = 16383;
+    public static final int MAX_SIZE_ADDRESS = 255;
+    public static final int MAX_SIZE_STATUS = 255;
+    public static final int MAX_SIZE_START_AT = 255;
+    public static final int MAX_SIZE_END_AT = 255;
+    public static final int MAX_SIZE_CREATED_AT = 255;
+    public static final int MAX_SIZE_UPDATED_AT = 255;
+}
