@@ -1,6 +1,6 @@
 package com.example.demo.models;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -78,7 +78,7 @@ public class WorkSite {
     @Size(max = AppConstants.MAX_SIZE_PHOTO)
     private byte[] photo;
 
-    // TODO: varchar(255)はStringに対応させていいのか？
+    // varchar(255)はStringに対応させていいのか？
     // stringは最大bayte数は一応あるけどその上限に達する前にヒープ領域が足りなくなるらしい
     // varchar(255)は文字数を表している
     // バイト数で表してない理由としてはおそらく文字コードに依存しないため
