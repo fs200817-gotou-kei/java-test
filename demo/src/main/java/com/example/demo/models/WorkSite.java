@@ -15,6 +15,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import com.example.demo.Constants.AppConstants;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.Data;
 
@@ -33,11 +34,12 @@ import lombok.Data;
 @Data
 public class WorkSite {
 
+    @Column(name = "id", nullable = false)
+    @JsonProperty("id")
     // Idはプライマリキーの指定なのはわかるけどつけることで何が起こるのか
     @Id
     // GeneratedValueやGenerationTypeは他とどう違うのか、他のオプションは何があるか
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
     // idをLong型で定義する根拠は？intは？integerは？ →
     // idがbigint型で8byteの格納領域に対してlongも同じ量だけの格納領域がありかつ数字型で同じであるから
     // 大切なのは一致してないと片方で入っていたものがもう片方では容量オーダーなどになっててしまわないこと
@@ -46,14 +48,17 @@ public class WorkSite {
     private Long id;
 
     @Column(name = "name")
+    @JsonProperty("name")
     @Size(max = AppConstants.MAX_SIZE_NAME)
     private String name;
 
     @Column(name = "type")
+    @JsonProperty("type")
     @Size(max = AppConstants.MAX_SIZE_TYPE)
     private String type;
 
     @Column(name = "staff_name")
+    @JsonProperty("staff_name")
     @Size(max = AppConstants.MAX_SIZE_STAFF_NAME)
     private String staffName;
 
@@ -68,6 +73,7 @@ public class WorkSite {
     // TODO: Lobなしではだめなのか、columnDefinitionなしではだめなのか
     // TODO: Sizeいくつ？
     @Column(name = "photo", columnDefinition = "MEDIUMBLOB")
+    @JsonProperty("photo")
     @Lob
     @Size(max = AppConstants.MAX_SIZE_PHOTO)
     private byte[] photo;
@@ -81,11 +87,13 @@ public class WorkSite {
     // 見た感じ254とか253とか減らしても結局変わらず1バイトの容量を確保するようだ
     // 計算としては1バイト=8bit=2の8乗=256
     // 256ではない理由としては最後の文末を表すCRを入れるから256 - 1 = 255になるようだ(人間に見えるのは255)
-    @Column(name = "adress")
+    @Column(name = "address")
+    @JsonProperty("address")
     @Size(max = AppConstants.MAX_SIZE_ADDRESS)
-    private String adress;
+    private String address;
 
     @Column(name = "status")
+    @JsonProperty("status")
     @Size(max = AppConstants.MAX_SIZE_STATUS)
     private String status;
 
@@ -93,18 +101,21 @@ public class WorkSite {
     // TODO: Date型の根拠は？他のDate系列の型じゃダメなの？
     // TODO: 時間形式が間違っている場合エラー出すようする
     @Column(name = "start_at")
+    @JsonProperty("start_at")
     private Date startAt;
 
     @Column(name = "end_at")
+    @JsonProperty("end_at")
     private Date endAt;
 
     // TODO: 元のdb定義はDatetime型だけどDate型でいいの？
     @Column(name = "created_at")
+    @JsonProperty("created_at")
     @CreatedDate
     private Date createdAt;
 
     @Column(name = "updated_at")
+    @JsonProperty("updated_at")
     @LastModifiedDate
     private Date updatedAt;
-
 }
