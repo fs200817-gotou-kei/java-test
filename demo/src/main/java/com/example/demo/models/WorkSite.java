@@ -118,4 +118,6 @@ public class WorkSite {
     @JsonProperty("updated_at")
     @LastModifiedDate
     private Date updatedAt;
+
+    // TODO: 追加機能でリレーションつける
 }

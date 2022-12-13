@@ -1,5 +1,6 @@
 package com.example.demo.controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.Constants.AppConstants;
 import com.example.demo.models.WorkSite;
+import com.example.demo.services.WorkSiteService;
 
 // 現場情報に関する問い合わせを管理するクラス
 @RestController
@@ -20,13 +22,16 @@ import com.example.demo.models.WorkSite;
 @CrossOrigin(origins = AppConstants.WORK_SITE_CORS)
 public class WorkSiteController<T> {
 
+    @Autowired
+    private WorkSiteService workSiteService;
+
     // すべてのメソッドはクライアントへ接続状況と値を渡したいのでResponseEntityで渡すようにする
     // すべての現場情報を返す
     // TODO: 本当にTじゃなければいけない？
     // TODO: ResponseEntityで返すと返さずにそのまま値を返すとの違いは何か
     @GetMapping()
     public ResponseEntity<T> getAllWorkSites() {
-        return null;
+        return this.workSiteService.getAllWorkSites();
     }
 
     @GetMapping(AppConstants.WORK_SITE_REQUEST_BY_ID_URL)
@@ -50,4 +55,6 @@ public class WorkSiteController<T> {
     }
 
     // TODO: Optinalで受け取るとnullとか値が入っていなくても受け取れる
+    // TODO: 追加機能で名前から検索
+    // TODO: 期間内のデータ
 }
