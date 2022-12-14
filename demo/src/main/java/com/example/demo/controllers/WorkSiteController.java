@@ -1,5 +1,7 @@
 package com.example.demo.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -29,8 +31,10 @@ public class WorkSiteController<T> {
     // すべての現場情報を返す
     // TODO: 本当にTじゃなければいけない？
     // TODO: ResponseEntityで返すと返さずにそのまま値を返すとの違いは何か
+    // TODO: 本当は<T>にしたい
     @GetMapping()
-    public ResponseEntity<T> getAllWorkSites() {
+    public ResponseEntity<List<WorkSite>> getAllWorkSites() {
+        showAccessedMessage(AppConstants.WORK_SITE_URL);
         return this.workSiteService.getAllWorkSites();
     }
 
@@ -54,6 +58,9 @@ public class WorkSiteController<T> {
         return null;
     }
 
+    private void showAccessedMessage(String workSiteUrl) {
+        System.out.println(workSiteUrl + AppConstants.ACCESSED_MESSAGE);
+    }
     // TODO: Optinalで受け取るとnullとか値が入っていなくても受け取れる
     // TODO: 追加機能で名前から検索
     // TODO: 期間内のデータ

@@ -24,4 +24,7 @@ public class AppConstants {
     // Cors許可URL
     public static final String WORK_SITE_CORS = "http://127.0.0.1:8081";
 
+    // メッセージ
+    public static final String ACCESSED_MESSAGE = "へアクセスがありました。";
+
 }
