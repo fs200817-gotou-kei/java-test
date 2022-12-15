@@ -39,8 +39,8 @@ public class WorkSiteController<T> {
     }
 
     @GetMapping(AppConstants.WORK_SITE_REQUEST_BY_ID_URL)
-    public ResponseEntity<T> getWorkSiteById(@PathVariable Long id) {
-        return null;
+    public ResponseEntity<WorkSite> getWorkSiteById(@PathVariable Long id) {
+        return this.workSiteService.getWorkSiteById(id);
     }
 
     @PostMapping()

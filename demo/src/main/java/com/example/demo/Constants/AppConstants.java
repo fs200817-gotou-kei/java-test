@@ -19,7 +19,7 @@ public class AppConstants {
 
     // 問い合わせURL
     public static final String WORK_SITE_URL = "/api/v1/worksites";
-    public static final String WORK_SITE_REQUEST_BY_ID_URL = "/{id}";
+    public static final String WORK_SITE_REQUEST_BY_ID_URL = WORK_SITE_URL + "/{id}";
 
     // Cors許可URL
     public static final String WORK_SITE_CORS = "http://127.0.0.1:8081";

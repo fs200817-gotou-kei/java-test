@@ -2,8 +2,12 @@ package com.example.demo.services;
 
 import java.net.ConnectException;
 import java.sql.Connection;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister.NotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -77,15 +81,20 @@ public class WorkSiteService {
 
         // 一旦これでちゃんとcatchできている
         // 200も返っている(ないと500返る)
+
+        List<WorkSite> workSites = Collections.emptyList();
         try {
-            List<WorkSite> workSites = this.workSiteRepository.findAll();
+            workSites = this.workSiteRepository.findAll();
             return ResponseEntity.ok(workSites);
             // repositoryがcatchしてこっちまで戻ってきてないってことかな？
             // TODO: JDBCエラーに指定したらcatchできなかった
         } catch (Exception ex) {
+            // TODO: logging
             System.out.println(ex.toString());
             System.out.println("OK");
-            return null;
+
+            // TODO: header情報明示化する、statusCOdeとかエラーメッセージとかも付加する
+            return ResponseEntity.ok(workSites);
             // return ResponseEntity.status(HttpStatus.BAD_GATEWAY);
         }
 
@@ -93,5 +102,17 @@ public class WorkSiteService {
         // statusによってstatusCodeは変えたいのでifで分岐してResponseEntityの中のStatusCodeとかbodyの値を変えたりしてあげる
         // frontへは普通に空の状態のオブジェクトとメッセージとステータスコードだけ乗せればいいと思う
         // → 空ってだけで別に割ることでも何でもない、ただデータないってだけ
+    }
+
+    public ResponseEntity<WorkSite> getWorkSiteById(Long id) {
+        WorkSite workSite = new WorkSite();
+
+        try {
+            return ResponseEntity.ok(this.workSiteRepository.findById(id).orElseThrow(() -> new NotFoundException()));
+        } catch (Exception ex) {
+            System.out.println(ex.toString());
+            // TODO: header情報明示化する、statusCOdeとかエラーメッセージとかも付加する
+            return ResponseEntity.ok(workSite);
+        }
     }
 }
